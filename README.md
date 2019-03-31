@@ -24,4 +24,4 @@ Either.chain = pmatch({
 
 ## Properties
 
-TODO: Ensure behavior can elegantly be expressed in terms of `match`
+TODO: Provide simple conceptual desugaring in terms of `match` from `@masaeedu/adt`
