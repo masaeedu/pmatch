@@ -11,5 +11,8 @@
     "@masaeedu/adt": "^1.1.0",
     "@masaeedu/fp": "https://github.com/masaeedu/fp.git#dev",
     "nanoparsec": "^1.4.0"
+  },
+  "devDependencies": {
+    "ava": "^1.4.1"
   }
 }
