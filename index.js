@@ -1,6 +1,8 @@
 const { adt, match, otherwise } = require("@masaeedu/adt");
+const { Fn, Obj, Arr, Str, Either, Maybe, fail } = require("@masaeedu/fp");
 const P = require("nanoparsec");
-const { Fn, Obj, Arr, Vec, Str, Either, Maybe, fail } = require("@masaeedu/fp");
+
+const { Con, Var, patterns } = require("./parsing");
 
 const { Left, Right } = Either;
 const { Just, Nothing } = Maybe;
@@ -12,37 +14,8 @@ Maybe.guarantee = e =>
     },
     Just: Fn.id
   });
+
 Either.guarantee = match({ Left: fail, Right: Fn.id });
-
-const { Con, Var } = adt({
-  Con: ["String", "x"],
-  Var: ["String"]
-});
-
-const upcase = P.regex(/[A-Z]/);
-const locase = P.regex(/[a-z_]/);
-const rest = P.regex(/[A-Za-z\d-_]*/);
-
-const label = P.lift2(Str.append)(upcase)(rest);
-const hole = P.lift2(Str.append)(locase)(rest);
-
-const pattern = Arr.asum(P)([
-  P.map(l => Con(l)([]))(label),
-
-  P.map(([, l, , v]) => Con(l)(v))(
-    Arr.sequence(P)([
-      P.char("("),
-      label,
-      P.spaces,
-      s => patterns(s),
-      P.char(")")
-    ])
-  ),
-
-  P.map(Var)(hole)
-]);
-
-const patterns = P.sepBy(P.spaces)(pattern);
 
 // Validate that all the arities match up
 const validateArity = pats => {
@@ -97,8 +70,8 @@ const matchRules = pats => vs =>
 
 const pmatch = cases => {
   const handlers = Obj.values(cases);
-  return Fn.passthru(cases)([
-    Obj.keys,
+  const patStrs = Obj.keys(cases);
+  return Fn.passthru(patStrs)([
     // Parse each key into an argument pattern list
     Arr.traverse(Either)(P.run(patterns)),
     // Validate structure of pattern match
