@@ -1,6 +1,6 @@
 {
   "name": "@masaeedu/pmatch",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "index.js",
   "author": "Asad Saeeduddin <masaeedu@gmail.com>",
   "license": "MIT",
