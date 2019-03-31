@@ -15,7 +15,7 @@ const { Left, Right } = Either;
 
 // Can be used to match over multiple arguments
 // :: Equatable e -> Equatable a -> Either e a -> Either e a -> Boolean
-const equals = E => A =>
+Either.equals = E => A =>
   pmatch({
     "(Left  x) (Left  y)": ({ x, y }) => E.equals(x)(y),
     "(Right x) (Right y)": ({ x, y }) => A.equals(x)(y)
