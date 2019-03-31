@@ -1,0 +1,27 @@
+# `@masaeedu/pmatch`
+
+## Summary
+
+A more convenient pattern matching syntax for ADTs constructed using [`@masaeedu/adt`](https://github.com/masaeedu/adt)
+
+## Usage
+
+```js
+const { adt, match } = require("@masaeedu/adt");
+const { pmatch } = require("@masaeedu/pmatch");
+
+const Either = adt({ Left: ["e"], Right: ["a"] });
+const { Left, Right } = Either;
+
+// :: a -> Either e a
+Either.of = Right;
+// :: (a -> Either e b) -> Either e a -> Either e b
+Either.chain = pmatch({
+  "_ (Left e)": ({ e }) => Left(e),
+  "f (Just x)": ({ f, x }) => f(x)
+});
+```
+
+## Properties
+
+TODO: Ensure behavior can elegantly be expressed in terms of `match`
