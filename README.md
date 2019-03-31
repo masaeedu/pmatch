@@ -25,3 +25,7 @@ Either.chain = pmatch({
 ## Properties
 
 TODO: Provide simple conceptual desugaring in terms of `match` from `@masaeedu/adt`
+
+## Disclaimer
+
+Library has no tests and will perform poorly, this is basically a toy project to understand different algorithms for implementing pattern matching
