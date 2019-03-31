@@ -1,5 +1,5 @@
 const { adt, match } = require("@masaeedu/adt");
-const { Arr, Str } = require("@masaeedu/fp");
+const { Fn, Arr, Str } = require("@masaeedu/fp");
 const P = require("nanoparsec");
 
 const { Con, Var } = adt({
@@ -30,6 +30,9 @@ const pattern = Arr.asum(P)([
   P.map(Var)(hole)
 ]);
 
-const patterns = P.sepBy(P.spaces)(pattern);
+const patterns = Fn.passthru(pattern)([
+  P.sepBy(P.spaces),
+  P.surroundedBy(P.spaces)
+]);
 
 module.exports = { Con, Var, patterns };

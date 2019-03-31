@@ -1834,8 +1834,8 @@ nanomatch@^1.2.9:
     to-regex "^3.0.1"
 
 nanoparsec@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/nanoparsec/-/nanoparsec-1.4.0.tgz#3cc8efd5ca14bf2a943ea0da65af35e0753516e6"
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/nanoparsec/-/nanoparsec-1.5.0.tgz#2a7f5797e46a49d3591e579071872877cf404010"
   dependencies:
     "@masaeedu/fp" "https://github.com/masaeedu/fp.git#dev"
 
