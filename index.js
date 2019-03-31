@@ -44,15 +44,6 @@ const pattern = Arr.asum(P)([
 
 const patterns = P.sepBy(P.spaces)(pattern);
 
-// TODO: I give up, doing the naive thing first where it just falls
-// through pattern lists without trying to actually figure out
-// specificity of matches. Hopefully that'll just be an extra step in
-// the pipeline where I order the match rules by their specificity,
-// although I have no idea how many comparisons that involves
-// Relevant papers to look at:
-// - ML pattern match compilation and partial evaluation (Peter Sestoft)
-// - Compiling Pattern Matching to good Decision Trees (Luc Maranget)
-
 // Validate that all the arities match up
 const validateArity = pats => {
   const arities = Arr.dedupe(Arr.map(Arr.length)(pats));
@@ -60,18 +51,6 @@ const validateArity = pats => {
   return arities.length > 1
     ? Left("All cases in pattern match must be of identical arity")
     : Right({ length: arities[0], pats });
-};
-
-// TODO: ensure all holes in a particular pattern list are unique,
-// can't be depending on an equality check (yet)
-const validateLinearity = ({ length, pats }) => {
-  return Right({ length, pats });
-};
-
-// Tuple up corresponding alternatives
-const pairArgumentCases = ({ length, pats }) => {
-  const V = Vec(length);
-  return { length, pats: Arr.sequence(V)(pats) };
 };
 
 const { Failure, Partial, Success } = adt({
@@ -124,7 +103,6 @@ const pmatch = cases => {
     Arr.traverse(Either)(P.run(patterns)),
     // Validate structure of pattern match
     Either["=<<"](validateArity),
-    Either["=<<"](validateLinearity),
     // If there were problems, explode
     Either.guarantee,
     // Produce a function that consumes arguments
