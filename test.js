@@ -15,10 +15,9 @@ test("it works", t => {
   // :: Equatable e -> Equatable a -> Either e a -> Either e a -> Boolean
   const equals = E => A =>
     pmatch({
-      "(Left  _) (Right _)": _ => false,
-      "(Right _) (Left  _)": _ => false,
       "(Left  x) (Left  y)": ({ x, y }) => E.equals(x)(y),
-      "(Right x) (Right y)": ({ x, y }) => A.equals(x)(y)
+      "(Right x) (Right y)": ({ x, y }) => A.equals(x)(y),
+      "_         _        ": _ => false
     });
 
   // Deliberately using pmatch unnecessarily here to
