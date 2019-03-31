@@ -44,11 +44,14 @@ const pattern = Arr.asum(P)([
 
 const patterns = P.sepBy(P.spaces)(pattern);
 
-// TODO: I fucking give up, doing the naive thing first where it just
-// falls through pattern lists without trying to actually figure out
+// TODO: I give up, doing the naive thing first where it just falls
+// through pattern lists without trying to actually figure out
 // specificity of matches. Hopefully that'll just be an extra step in
 // the pipeline where I order the match rules by their specificity,
 // although I have no idea how many comparisons that involves
+// Relevant papers to look at:
+// - ML pattern match compilation and partial evaluation (Peter Sestoft)
+// - Compiling Pattern Matching to good Decision Trees (Luc Maranget)
 
 // Validate that all the arities match up
 const validateArity = pats => {
