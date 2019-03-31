@@ -59,6 +59,11 @@ const { Failure, Partial, Success } = adt({
   Success: ["String", "?"]
 });
 
+// For each pattern, produce either:
+// 1. a failure to match
+// 2. a partial match that needs more nested pattern matching to complete, or
+// 3. a successful match
+// where "a match" is a labelled value that's been extracted from the arg list
 const matchArg = match({
   Con: name => ps =>
     match({
@@ -68,11 +73,6 @@ const matchArg = match({
   Var: Success
 });
 
-// For each pattern, produce either:
-// 1. a failure to match
-// 2. a partial match that needs more nested pattern matching to complete, or
-// 3. a successful match
-// where "a match" is a labelled value that's been extracted from the arg list
 const matchRule = ps => vs =>
   Fn.passthru([ps, vs])([
     Fn.uncurry(Arr.zipWith(matchArg)),
