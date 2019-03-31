@@ -1,0 +1,15 @@
+{
+  "name": "@masaeedu/pmatch",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Asad Saeeduddin <masaeedu@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@masaeedu/adt": "^1.1.0",
+    "@masaeedu/fp": "https://github.com/masaeedu/fp.git#dev",
+    "nanoparsec": "^1.4.0"
+  }
+}
