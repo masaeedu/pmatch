@@ -18,7 +18,7 @@ Either.of = Right;
 // :: (a -> Either e b) -> Either e a -> Either e b
 Either.chain = pmatch({
   "_ (Left e)": ({ e }) => Left(e),
-  "f (Just x)": ({ f, x }) => f(x)
+  "f (Right x)": ({ f, x }) => f(x)
 });
 ```
 
