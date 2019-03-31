@@ -26,20 +26,20 @@ test("it works", t => {
   // matches, just using `match` is more convenient
   // :: (a -> Either e b) -> Either e a -> Either e b
   const chain = pmatch({
-    "_ (Left e)": ({ e }) => Left(e),
+    "_ (Left  e)": ({ e }) => Left(e),
     "f (Right a)": ({ f, a }) => f(a)
   });
 
   // :: Either e (Either e a) -> Either e a
   const join = pmatch({
-    "(Left e)": ({ e }) => Left(e),
+    "(Left  e        )": ({ e }) => Left(e),
     "(Right (Right a))": ({ a }) => Right(a),
-    "(Right l)": ({ l }) => l
+    "(Right l        )": ({ l }) => l
   });
 
   // :: (a -> b) -> Either e a -> Either e b
   const map = pmatch({
-    "_ (Left e)": ({ e }) => Left(e),
+    "_ (Left  e)": ({ e }) => Left(e),
     "f (Right a)": ({ f, a }) => Right(f(a))
   });
 
