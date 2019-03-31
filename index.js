@@ -72,7 +72,7 @@ const pmatch = cases => {
   const handlers = Obj.values(cases);
   const patStrs = Obj.keys(cases);
   return Fn.passthru(patStrs)([
-    // Parse each key into an argument pattern list
+    // Parse each key into a pattern list
     Arr.traverse(Either)(P.run(patterns)),
     // Validate structure of pattern match
     Either["=<<"](validateArity),
