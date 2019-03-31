@@ -71,6 +71,13 @@ const matchRules = pats => vs =>
 const pmatch = cases => {
   const handlers = Obj.values(cases);
   const patStrs = Obj.keys(cases);
+
+  const failmsg = vs => `
+Failed to match value:
+${JSON.stringify(vs)}
+against cases:
+${JSON.stringify(patStrs)}
+`;
   return Fn.passthru(patStrs)([
     // Parse each key into a pattern list
     Arr.traverse(Either)(P.run(patterns)),
@@ -81,16 +88,18 @@ const pmatch = cases => {
     // Produce a function that consumes arguments
     // and matches against the validated patterns
     ({ length, pats }) =>
-      Fn.curryN(length)(
-        Fn.pipe([
+      Fn.curryN(length)(vs => {
+        const m = failmsg(vs);
+
+        return Fn.passthru(vs)([
           // Find the first successful match
           matchRules(pats),
-          Maybe.guarantee("No patterns matched!"),
+          Maybe.guarantee(m),
           // Feed the extracted values into the
           // appropriate handler
           ({ i, r }) => handlers[i](r)
-        ])
-      )
+        ]);
+      })
   ]);
 };
 
