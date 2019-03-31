@@ -13,12 +13,21 @@ const { pmatch } = require("@masaeedu/pmatch");
 const Either = adt({ Left: ["e"], Right: ["a"] });
 const { Left, Right } = Either;
 
-// :: a -> Either e a
-Either.of = Right;
-// :: (a -> Either e b) -> Either e a -> Either e b
-Either.chain = pmatch({
-  "_ (Left e)": ({ e }) => Left(e),
-  "f (Right x)": ({ f, x }) => f(x)
+// Can be used to match over multiple arguments
+// :: Equatable e -> Equatable a -> Either e a -> Either e a -> Boolean
+const equals = E => A =>
+  pmatch({
+    "(Left  x) (Left  y)": ({ x, y }) => E.equals(x)(y),
+    "(Right x) (Right y)": ({ x, y }) => A.equals(x)(y)
+    "_         _        ": _ => false
+  });
+
+// Also handy when matching over nested ADTs
+// :: Either e (Either e a) -> Either e a
+Either.join = pmatch({
+  "(Left  e        )": ({ e }) => Left(e),
+  "(Right (Right a))": ({ a }) => Right(a),
+  "(Right l        )": ({ l }) => l
 });
 ```
 
